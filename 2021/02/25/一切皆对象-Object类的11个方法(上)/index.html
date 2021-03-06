@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="一切皆对象:Object类的11个方法(上)">
+  
+  <meta name="author" content="jim chen">
+  <meta name="keywords" content="Java c++ Javascript python node.js 安装更新与卸载">
+  
+  <title>一切皆对象:Object类的11个方法(上) - C的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>C</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="一切皆对象:Object类的11个方法(上)">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-25 21:53" pubdate>
+        2021年2月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      79
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">一切皆对象:Object类的11个方法(上)</h1>
+            
+            <div class="markdown-body">
+              <h2 id="一切皆对象-Object类的11个方法-上"><a href="#一切皆对象-Object类的11个方法-上" class="headerlink" title="一切皆对象:Object类的11个方法(上)"></a>一切皆对象:Object类的11个方法(上)</h2><span id="more"></span>
+
+<h3 id="重要性"><a href="#重要性" class="headerlink" title="重要性"></a>重要性</h3><p>Object类是一切Java中一切类默认的超类，是包括自建类的所有类继承的一个很重要的类。所有类都可以调用其中的11种方法，这十一种方法具有十分的通用性与易用性，要求每一个都熟练理解并掌握。</p>
+<h3 id="1-toString"><a href="#1-toString" class="headerlink" title="1. toString()"></a>1. toString()</h3><p>正如 <code>toString</code> 的名字， <code>toString()</code> 就是将一个对象转换为字符串然后输出。</p>
+<p>让我们来到手撕源码环节</p>
+<pre><code>public String toString() &#123;
+    return getClass().getName() + &quot;@&quot; + Integer.toHexString(hashCode());
+&#125;
+</code></pre>
+<p>一脸蒙蔽，追查源码同样一脸蒙蔽，基本追查不下去，那我们开始实操环节，用我们最经典的 <code>Employee</code> 类做实验。</p>
+<pre><code>public class Employee &#123;
+    private String name;
+    private double salary;
+    private LocalDate hireDay;
+
+    public Employee(String n, double s, int year, int month, int day)
+    &#123;
+        name = n;
+        salary = s;
+        hireDay = LocalDate.of(year, month, day);
+    &#125;
+
+    public static void main(String[] args) &#123;
+        Employee e = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+        System.out.println(e.toString());
+
+        Integer i = new Integer(&quot;123&quot;);//我们再拿Integer做实验
+        System.out.println(i);
+        System.out.println(i.toString());
+        System.out.println(i.toString().getClass());//getClass()类同样是Object中的一个方法，作用是返回类名，我们在下面详细的介绍。
+    &#125;
+&#125;
+</code></pre>
+<p>结果是</p>
+<pre><code>inheritance.Employee@16d3586
+123
+123
+class java.lang.String
+</code></pre>
+<p>我们发现，<code>i.toString()</code> 并没有基类所带的 <code>@</code> ，说明它可能放弃了基类的教导，转身重写了 <code>toString()</code>，我们追查一下。</p>
+<pre><code>public String toString() &#123;
+    return toString(value);
+&#125;
+
+public static String toString(int i) &#123;
+    if (i == Integer.MIN_VALUE)
+        return &quot;-2147483648&quot;;
+    int size = (i &lt; 0) ? stringSize(-i) + 1 : stringSize(i);
+    char[] buf = new char[size];
+    getChars(i, size, buf);
+    return new String(buf, true);
+&#125;
+</code></pre>
+<p>果然不错，凡是我们知道能用串表示出来的，经过追查，都忘了初心，变成了我们更好用的样子，即直接转换为字符串。只有那些不能用串表示的，才会接过 <code>Object</code> 的摊子。而我们此刻应该去和那些忘了初心的类学习，重写 <code>toString</code>。就以打工人这个类为例。</p>
+<pre><code>@Override//表示对父类方法的重写
+public String toString() &#123;
+    return &quot;Employee&#123;&quot; +
+            &quot;name=&#39;&quot; + name + &#39;\&#39;&#39; +
+            &quot;, salary=&quot; + salary +
+            &quot;, hireDay=&quot; + hireDay +
+            &#39;&#125;&#39;;
+&#125;
+</code></pre>
+<p>我们 <code>System.out.println(e.toString());</code> 的结果如下</p>
+<pre><code>Employee&#123;name=&#39;abc&#39;, salary=1.0, hireDay=2000-01-01&#125;//我这才发现这个苦逼打工人的薪水只有一块钱
+</code></pre>
+<p>果然重写之后的 <code>toString</code> 更加适合我们去用。</p>
+<p><font size=3>这其实也奠定了一个基调，部分时候 <code>Object</code> 的方法要重写成适合使用的模样。</font></p>
+<h3 id="2-equals"><a href="#2-equals" class="headerlink" title="2. equals()"></a>2. equals()</h3><p> <code>equals</code> 方法用于检测一个对象是否等于另一个对象，这是一个合理的默认行为：如果两个对象的引用相等，这两个对象肯定就相等。如果基于状态检测对象的相等于，两个对象有相同的状态，才认为这两个对象是相等的。</p>
+<p> 话不多说，我们上一段代码:</p>
+<pre><code>public class Person&#123;
+    private String name;
+    public Person(String name)&#123;this.name = name;&#125;
+&#125;
+
+public static void main(String[] args)&#123;
+    String s3 = new String(&quot;100&quot;);
+    String s4 = new String(&quot;100&quot;);
+    System.out.println(s3.equals(s4));
+
+    Integer itr = new Integer(&quot;123&quot;);
+    Long lon = new Long(&quot;123&quot;);
+    System.out.println(itr.equals(lon));
+
+    Person person1 = new Person(&quot;张三&quot;);
+    Person person2 = new Person(&quot;张三&quot;);
+    System.out.println(person1.equals(person2));
+&#125;
+</code></pre>
+<p>结果是 <code>true false false</code></p>
+<p>我们要想知道为什么是这个结果，首先就要研究一下 <code>equals()</code> 的源码</p>
+<pre><code>public boolean equals(Object obj)&#123;
+    return(this == obj);
+&#125;
+</code></pre>
+<p>很简单，就是判断两个引用是否指向同一个对象，由于 <code>Person</code> 类并没有重写 <code>equals</code> ，所以继承的就是 <code>Object</code> 中的<code>equals()</code> ，在内存的观点来看，两个 <code>Person</code> 对象显然是不同的。</p>
+<p><img src="/img/Java/Object/equals1.jpg" srcset="/img/loading.gif" alt="在内存中的示意图"></p>
+<p>在 <code>Integer</code> 中，<code>equals</code> 的实现如下</p>
+<pre><code>public boolean equals(Object obj)&#123;
+    if(obj instanceof Integer)&#123;
+        return value == ((Integer)obj).intValue();
+    &#125;
+    return false;
+&#125;
+</code></pre>
+<p>意思很明确，判断对象类型是否可以为 <code>Integer</code> (参考我的上一篇: 类与继承)，这里 <code>lon</code> 是 <code>Long</code> 类型，所有结果肯定是 <code>false</code> 。</p>
+<p>最后我们看看 <code>String</code> 的实现</p>
+<pre><code>public boolean equals(Object anObject) &#123;
+    if (this == anObject) &#123;
+        return true;
+    &#125;
+    if (anObject instanceof String) &#123;
+        String anotherString = (String)anObject;
+        int n = value.length;
+        if (n == anotherString.value.length) &#123;
+            char v1[] = value;
+            char v2[] = anotherString.value;
+            int i = 0;
+            while (n-- != 0) &#123;
+                if (v1[i] != v2[i])
+                    return false;
+                i++;
+            &#125;
+            return true;
+        &#125;
+    &#125;
+    return false;
+&#125;
+</code></pre>
+<p>如果都指向一个引用，毋庸置疑是相等的。接下来有三个步骤</p>
+<ol>
+<li>判断是否为String类型。</li>
+<li>判断这两个字符串底层char数组的长度是否一致。</li>
+<li>循环判断每一个char字符是否相等。</li>
+</ol>
+<p>我们的s3，s4显然不满足第一步，但可以过了下面三关，成功打印出 <code>true</code> 。</p>
+<p>显然，我们超类 <code>Object</code> 的 <code>equals()</code> 只是判断二者引用是否相同，大部分时候，还是需要我们重写 <code>equals()</code> 来定义是否相等。</p>
+<p><font size=3>由此，我们能回答一个面试的经典问题： <code>==</code> 和 <code>equals()</code> 有什么区别？</font></p>
+<p> <code>==</code> 指的就是引用相同，和超类中的 <code>equals</code> 意义相同，而大部分情况，我们需要重写 <code>equals</code> 来定义两个对象是否相同，这时候含义就与 <code>==</code> 不同了。</p>
+<h3 id="3-hashCode"><a href="#3-hashCode" class="headerlink" title="3. hashCode()"></a>3. hashCode()</h3><p> <code>hashCode</code> 方法是由对象导出的一个整形值。散列码没有规律，如果 <code>x</code> 和 <code>y</code> 是两个不同的对象，那么 <code>x.hashCode()</code> 和 <code>y.hashCode()</code> 基本上不会相同。简单的来说，<code>hashCode</code>就像是一个签名，当两个对象的 <code>hashcode</code> 一样，那么两个对象就可能一样，如果不一样，那两个对象肯定不是同一个对象。等于 <code>hashcode</code> 可以确定一个大范围，然后可以使用 <code>equals</code> 来比较。</p>
+<p>即 <code>对象1</code> 和 <code>对象2</code> 签名(散列码) 相等并不能确定两个对象相等，凡是如果两个对象相等，它们的散列码一定是相等的。</p>
+<p>所以 <code>hashcode</code> 可以减少 <code>equals</code> 比较的次数，提高运算效率。</p>
+<p>我们来看一下没有重写的 <code>hashCode</code> 在实战中的表现</p>
+<pre><code>    Employee e = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+    Employee d = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+
+    System.out.println(e.hashCode()== d.hashCode());
+</code></pre>
+<p>结果是 <code>false</code> 。在 <code>equals</code> 中，我们也试验了，<code>e</code> 是不等于 <code>d</code> 的，如果先用 <code>hashCode</code> 检测，就能更有效率的发现二者不相等了。所以我们一般用 <code>hashcode</code> 来进行比较两个东西是不是一样的，可以很容易的排除许多不一样的东西。</p>
+<p> <code>hashCode</code> 在官方源码的文档可以提取处几个要点：</p>
+<ol>
+<li><p><code>hashCode</code> 的存在主要是用于查找的快捷性，如 <code>Hashtable</code> ，<code>HashMap</code>等，<code>hashCode</code>是用来在散列存储结构中确定对象的存储地址的；</p>
+</li>
+<li><p>如果两个对象相同，就是适用于 <code>equals(Java.lang.Object)</code> 方法，那么这两个对象的 <code>hashCode</code> 一定要相同</p>
+</li>
+<li><p>如果对象的 <code>equals</code> 方法被重写，那么对象的 <code>hashCode</code> 也尽量重写，并且产生 <code>hashCode</code> 使用的对象，一定要和 <code>equals</code> 方法中使用的一致，否则就会违反上面提到的第2点</p>
+</li>
+<li><p>两个对象的 <code>hashCode</code> 相同，并不一定表示两个对象就相同，也就是不一定适用于 <code>equals(java.lang.Object)</code> 方法，只能够说明这两个对象在散列存储结构中，如 <code>Hashtable</code> ，他们“存放在同一个篮子里”。</p>
+</li>
+</ol>
+<p>但我们经过上面两轮发现，<code>Object</code> 中的方法大部分是需要重写的，而 <code>hashCode</code> 在实际应用中非常重要，是需要重写的重中之重，下面我们还是用打工人这个类，重写一下 <code>hashCode</code> 方法。</p>
+<pre><code>@Override
+public int hashCode() &#123;
+    return Objects.hash(getName(), getSalary(), hireDay);
+&#125;
+
+@Override
+public boolean equals(Object o) &#123;
+    if (this == o) return true;
+    if (!(o instanceof Employee)) return false;
+    Employee employee = (Employee) o;
+    return Double.compare(employee.getSalary(), getSalary()) == 0 &amp;&amp; Objects.equals(getName(), employee.getName()) &amp;&amp; Objects.equals(hireDay, employee.hireDay);
+&#125;
+
+public static void main(String[] args) &#123;
+    Employee e = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+    Employee d = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+
+    System.out.println(e.hashCode()== d.hashCode());
+    System.out.println(e.equals(d));
+</code></pre>
+<p>结果是:</p>
+<pre><code>true
+true
+</code></pre>
+<p>和上面没有重写的结果显然就不一样了，实际上这两个对象除了地址不一样，别的不能说几分相像，简直是一模一样。</p>
+<p>但是我们实际情况中肯定更复杂，一个打工人的属性肯定也不会只有这些，一般是按照 <code>id</code> 来确认 <code>hashcode</code> 再确认是否相等的。</p>
+<p>PS: 在覆写 <code>equals()</code> 方法的时候也必须覆写 <code>hashCode()</code> 方法。这样才能确保相等的两个对象拥有相等的 <code>.hashCode</code>。</p>
+<p>再使用 <code>IDEA</code> 进行编程时，如果你需要重写一般会为你生成一个较好的方案，但仍要实际情况实际分析，选择效率与准确性最高的方法。</p>
+<h3 id="4-clone"><a href="#4-clone" class="headerlink" title="4. clone()"></a>4. clone()</h3><p>提到 <code>clone</code> ，显而易见，就是复制一个对象，正如 <code>C++</code> 一样，复制同样分为深复制与浅复制。</p>
+<p>浅复制指被复制对象的所有数据成员都含有与原来对象相同的值，包括引用类型的数据成员，即不复制引用类型数据成员所指向的对象。深复制实现的是数据成员的全面复制，包括复制产生引用成员所指向的对象的副本。</p>
+<p>接下来通过几个实例来分析</p>
+<p>实例1</p>
+<pre><code>public static void main(String[] args) &#123;
+    Employee a = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+    Employee b = a;
+
+    System.out.println(a);
+    System.out.println(b);
+&#125;
+</code></pre>
+<p>结果是</p>
+<pre><code>inheritance.Employee@c3d3dc82
+inheritance.Employee@c3d3dc82
+</code></pre>
+<p>其实我们这儿就可以发现，直接打印一个对象就是打印它 <code>toString()</code> 的值，如果重写了，就打印重写的值。这两个指向的地址显然一模一样，就是复制了引用。实际上，这就是<strong>浅复制</strong>。</p>
+<p>从JVM的角度来看</p>
+<p><img src="/img/Java/Object/JVM1.jpg" srcset="/img/loading.gif" alt="不要在意为什么是dog"></p>
+<p>实例2</p>
+<pre><code>public static void main(String[] args) throws CloneNotSupportedException &#123;//抛出异常
+    Employee a = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+    Employee b = (Employee) a.clone();
+
+    System.out.println(a);
+    System.out.println(b);
+&#125;
+</code></pre>
+<p>运行，我们发现，就算我们抛出了异常，依然出错。我们就该知道，<code>clone</code> 这个方法不简单, 下面我们来介绍如何用他进行复制。</p>
+<p> <code>Object</code> 的 <code>clone()</code> 方法，实现了对象中各个属性的复制，但它的可见范围是 <code>protected</code> 的，所以实体类使用克隆的前提是：</p>
+<ol>
+<li>实现Cloneable接口，这是一个标记接口，自身没有方法。 </li>
+<li>覆盖clone()方法，可见性提升为public。</li>
+</ol>
+<p>让我们实现一下</p>
+<pre><code>public class Employee implements Cloneable &#123;
+    private String name;
+    private double salary;
+    private LocalDate hireDay;
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException&#123;
+        return super.clone();
+    &#125;
+
+    public Employee(String n, double s, int year, int month, int day)
+    &#123;
+        name = n;
+        salary = s;
+        hireDay = LocalDate.of(year, month, day);
+    &#125;
+
+    public static void main(String[] args) throws CloneNotSupportedException &#123;
+        Employee a = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+        Employee b = (Employee) a.clone();
+
+        System.out.println(a==b);
+    &#125;
+&#125;
+</code></pre>
+<p><code>implements Cloneable</code> 即表示这个类是可以复制的，这时候才能对其对象进行复制。</p>
+<p>运行的结果是 <code>false</code>, 即 <code>OBject</code> 的 <code>clone</code>，并不能把他俩拽到同一个引用，从JVM上看</p>
+<p><img src="/img/Java/Object/JVM2.jpg" srcset="/img/loading.gif" alt="因为是打工狗"></p>
+<p>其实这就是<strong>深复制</strong>，创建了新的一个对象而不是简单的引用。发现这两个对象也是两个地址的。</p>
+<p><font size=3>大部分情况，我们还是要用深复制，且要根据实际情况考虑是否重写方法</font></p>
+<h3 id="5-finalize"><a href="#5-finalize" class="headerlink" title="5. finalize()"></a>5. finalize()</h3><p><code>Java9</code> 开始，<code>finalize()</code> 在源码上被标注上了 <code>@Deprecated</code> , 代表这finalize的正式退休。</p>
+<p> <code>finalize</code> 方法原本作用就是处理系统资源、执行其他清理或者对象自救，实际上，<code>Object</code> 中的 <code>finalize</code> 只是建议回收资源，并没有正式析构，大部分时候对对象回收还是要重写 <code>finalize</code> 的。</p>
+<p>既然已经退休了，我们就不再学习它了，等到资源回收专题会讲解更适用的方法。</p>
+<h3 id="6-getClass"><a href="#6-getClass" class="headerlink" title="6. getClass()"></a>6. getClass()</h3><p> <code>getClass</code> 方法将返回一个对象所属的类，顾名思义，也就是返回对象的类的名称。</p>
+<p>就比如我们的打工人类，我们再次拿来做示范 </p>
+<pre><code>Employee a = new Employee(&quot;abc&quot;, 1, 2000, 1, 1);
+
+System.out.println(a.getClass());
+</code></pre>
+<p>结果是</p>
+<pre><code>class inheritance.Employee
+</code></pre>
+<p>很简单，就是返回类名。 <code>getClass()</code> 的实际作用就是获得这个类，进而通过这个类来获取与之相关的信息。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个是上篇，下篇的方法大多和多线程关系巨大，还比较高级，先掌握好基础，多练习这些方法，在做项目时根据项目的实际情况来重写相对应的方法。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>[^1] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27573287">说说Java里的equals（上）</a><br>[^2] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/26814793">Java中的HashCode</a><br>[^3] <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_33314107/article/details/80271963">java对象clone()方法</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E7%9A%84%E8%BF%90%E7%94%A8/">编程语言的运用</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/27/leetcode395-%E8%87%B3%E5%B0%91%E6%9C%89K%E4%B8%AA%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">leetcode395.至少有K个重复字符的最长子串</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/25/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-%E6%9C%80%E7%BB%8F%E5%85%B8LIS%E5%8D%95%E4%B8%B2%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">动态规划:最经典LIS单串问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "BK6hJ6F1PkFC1I5DmWdNwEoC-gzGzoHsz",
+          app_key: "mJy33u8TOWksoUBAdnqH4JXq",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "hide",
+          meta: [],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        苏ICP备2021007827号-1
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+
+
+</body>
+</html>

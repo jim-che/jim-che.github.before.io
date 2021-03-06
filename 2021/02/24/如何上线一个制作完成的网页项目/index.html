@@ -1,0 +1,560 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="如何上线一个制作完成的网页项目以下操作以腾讯云为例">
+  
+  <meta name="author" content="jim chen">
+  <meta name="keywords" content="Java c++ Javascript python node.js 安装更新与卸载">
+  
+  <title>如何上线一个制作完成的网页项目 - C的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>C</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="如何上线一个制作完成的网页项目">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-24 10:21" pubdate>
+        2021年2月24日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      771 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">如何上线一个制作完成的网页项目</h1>
+            
+            <div class="markdown-body">
+              <h1 id="如何上线一个制作完成的网页项目"><a href="#如何上线一个制作完成的网页项目" class="headerlink" title="如何上线一个制作完成的网页项目"></a>如何上线一个制作完成的网页项目</h1><p><font size=3 color=red >以下操作以腾讯云为例</font></p>
+<span id="more"></span>
+
+<h2 id="1-租用域名"><a href="#1-租用域名" class="headerlink" title="1. 租用域名"></a><strong>1. 租用域名</strong></h2><p><img src="/img/HTML/DNSPod.png" srcset="/img/loading.gif" alt="购买域名"></p>
+<p>搜索自己喜欢的域名</p>
+<p><strong>例:</strong></p>
+<p><code>www.example.com</code>需要搜索example</p>
+<p><img src="/img/HTML/example.png" srcset="/img/loading.gif" alt="result"></p>
+<p>顶级域名不一定需要<code>com</code>，但不建议使用中文</p>
+<p>PS: 域名购买越长期越优惠</p>
+<h2 id="2-租用一台够用的服务器"><a href="#2-租用一台够用的服务器" class="headerlink" title="2. 租用一台够用的服务器"></a><strong>2. 租用一台够用的服务器</strong></h2><ul>
+<li><p>如何选择服务器?</p>
+<p>  个人小网站访问量较少(一天不到1000)，最低配置已经能满足需求。</p>
+<p>  流量，数据量，访问量大的按照实际情况购买。</p>
+<p>  所在地点尽量购买空间距离近的服务器，但是在国内访问速度差距不大。</p>
+<p>  PS: 建议购买有独立公网IP的服务器，<strong>学生认证非常非常优惠!!</strong></p>
+</li>
+<li><p>如何租用服务器?</p>
+<p>  <strong><em>学生优惠：</em></strong><br>  <img src="/img/HTML/server.png" srcset="/img/loading.gif" alt="学生优惠"><br>  <a target="_blank" rel="noopener" href="https://curl.qcloud.com/1xhvBLa7">活动地址</a></p>
+<p>  <strong><em>普通租用：</em></strong><br>  <img src="/img/HTML/serverbuy.png" srcset="/img/loading.gif" alt="购买服务器"><br>  <a target="_blank" rel="noopener" href="https://curl.qcloud.com/UiELXXHV">购买地址</a></p>
+<p>  操作系统建议选常规服务器操作系统CentOS，三种都是命令行操作</p>
+<p>  PS: 新用户同样有优惠，但必须第一次购买的就是服务器，后续续费服务器没有优惠</p>
+<p>  购买之后在进入云服务器实例中即可以看到(区域一定要选自己购买的区域才能看到)<br>  <img src="/img/HTML/instance.png" srcset="/img/loading.gif" alt="实例"></p>
+</li>
+</ul>
+<h2 id="3-域名备案"><a href="#3-域名备案" class="headerlink" title="3. 域名备案"></a><strong>3. 域名备案</strong></h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/ba">腾讯云备案地址</a></p>
+<p><img src="/img/HTML/record.png" srcset="/img/loading.gif" alt="备案流程"></p>
+<p>按照租用服务器的网站要求进行备案，国内域名服务器只有备案完成的域名才能正常DNS解析。</p>
+<p>期间保持电话畅通。</p>
+<p>PS:<br>    · <strong>一切问题工作人员都会联系你帮你解决，不需要担心。</strong><br>    · 网站标题不会在任何地方展示，仅作为备案。<br>    · 个人网站网站服务内容选其他，备注部分正常填写即可。<br>    · 按照要求验证提交，之后坐等就可以了，期间把网站写好，备案完成即可上线。<br>    · 备案完成后会受到公安备案信息，建议按照信息要求进行公安备案。</p>
+<h2 id="4-腾讯云静态网站托管上线网站"><a href="#4-腾讯云静态网站托管上线网站" class="headerlink" title="4. 腾讯云静态网站托管上线网站"></a><strong>4. 腾讯云静态网站托管上线网站</strong></h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/wh">静态网站托管</a></p>
+<p>如果访问量不大，基本为免费使用</p>
+<p><img src="/img/HTML/static1.png" srcset="/img/loading.gif" alt="第一步"></p>
+<p><img src="/img/HTML/static2.png" srcset="/img/loading.gif" alt="第二步">(免费一定要勾起)</p>
+<p><img src="/img/HTML/static3.png" srcset="/img/loading.gif" alt="第三步"></p>
+<p><strong>HTML网页主页名称一定要用index.html</strong></p>
+<p>其他文件放在src、img等中以文件夹形式上传</p>
+<p><img src="/img/HTML/upload.png" srcset="/img/loading.gif" alt="upload">  </p>
+<p>随后云产品中选择DNS解析进入</p>
+<p><img src="/img/HTML/DNS.png" srcset="/img/loading.gif" alt="DNSPOD"></p>
+<ul>
+<li><p>DNS解析</p>
+<ul>
+<li>添加解析</li>
+<li>添加记录</li>
+<li>主机记录为域名前的字符串，例如www，如果想通过域名直接访问，则填@</li>
+<li>记录类型选A, 记录值填服务器的IP地址。</li>
+</ul>
+</li>
+</ul>
+<p>回到静态网站托管界面，进入详细配置，选择添加域名(全称)</p>
+<p>SSL证书处点击申请SSL证书</p>
+<p><img src="/img/HTML/SSL.png" srcset="/img/loading.gif" alt="SSL证书"></p>
+<p>申请免费SSL证书，一路推荐设置即可</p>
+<p>获得SSL证书后，回到创建自定义域名刷新后出现SSL证书，进入部署。</p>
+<p>复制CNAME地下的地址，到DNS解析中修改添加的记录为CNAME，记录值为复制的地址。</p>
+<p><font size=4>此刻终于可以通过域名访问自己本地写好的网页，上线成功！！</font></p>
+<h2 id="5-参考视频"><a href="#5-参考视频" class="headerlink" title="5. 参考视频"></a><strong>5. 参考视频</strong></h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18a4y1Y7e9">BV18a4y1Y7e9</a> </p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%89%8D%E7%AB%AF/%E7%BD%91%E9%A1%B5/">网页</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%9F%9F%E5%90%8D/">域名</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/24/Java%E7%B1%BB%E4%B8%8E%E7%BB%A7%E6%89%BF/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java类与继承</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/23/hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">hexo博客的创建与使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "BK6hJ6F1PkFC1I5DmWdNwEoC-gzGzoHsz",
+          app_key: "mJy33u8TOWksoUBAdnqH4JXq",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "hide",
+          meta: [],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        苏ICP备2021007827号-1
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+
+
+</body>
+</html>

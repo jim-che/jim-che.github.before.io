@@ -1,0 +1,709 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  
+    <meta name="description" content="leetcode第230场周赛(蓝湖)解析">
+  
+  <meta name="author" content="jim chen">
+  <meta name="keywords" content="Java c++ Javascript python node.js 安装更新与卸载">
+  
+  <title>leetcode第230场周赛(蓝湖)解析 - C的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>C</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="leetcode第230场周赛(蓝湖)解析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-28 13:07" pubdate>
+        2021年2月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      61
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">leetcode第230场周赛(蓝湖)解析</h1>
+            
+            <div class="markdown-body">
+              <h2 id="leetcode第230场周赛-蓝湖-解析"><a href="#leetcode第230场周赛-蓝湖-解析" class="headerlink" title="leetcode第230场周赛(蓝湖)解析"></a>leetcode第230场周赛(蓝湖)解析</h2><span id="more"></span>
+
+<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/contest/weekly-contest-230/">模拟竞赛地址</a></p>
+<h3 id="第一题-统计匹配检索规则的物品数量"><a href="#第一题-统计匹配检索规则的物品数量" class="headerlink" title="第一题 统计匹配检索规则的物品数量"></a>第一题 统计匹配检索规则的物品数量</h3><p>给你一个数组 <code>items</code> ，其中 <code>items[i] = [typei, colori, namei]</code> ，描述第 <code>i</code> 件物品的类型、颜色以及名称。</p>
+<p>另给你一条由两个字符串 <code>ruleKey</code> 和 <code>ruleValue</code> 表示的检索规则。</p>
+<p>如果第 <code>i</code> 件物品能满足下述条件之一，则认为该物品与给定的检索规则 <strong>匹配</strong> ：</p>
+<ul>
+<li><code>ruleKey == &quot;type&quot;</code> 且 <code>ruleValue == typei</code> 。</li>
+<li><code>ruleKey == &quot;color&quot;</code> 且 <code>ruleValue == colori</code> 。</li>
+<li><code>ruleKey == &quot;name&quot;</code> 且 <code>ruleValue == namei</code> 。</li>
+</ul>
+<p><strong>示例 1</strong>：</p>
+<pre><code>输入：items = [[&quot;phone&quot;,&quot;blue&quot;,&quot;pixel&quot;],[&quot;computer&quot;,&quot;silver&quot;,&quot;lenovo&quot;],[&quot;phone&quot;,&quot;gold&quot;,&quot;iphone&quot;]], ruleKey = &quot;color&quot;, ruleValue = &quot;silver&quot;
+输出：1
+解释：只有一件物品匹配检索规则，这件物品是 [&quot;computer&quot;,&quot;silver&quot;,&quot;lenovo&quot;] 。
+</code></pre>
+<p><strong>示例 2</strong>：</p>
+<pre><code>输入：items = [[&quot;phone&quot;,&quot;blue&quot;,&quot;pixel&quot;],[&quot;computer&quot;,&quot;silver&quot;,&quot;phone&quot;],[&quot;phone&quot;,&quot;gold&quot;,&quot;iphone&quot;]], ruleKey = &quot;type&quot;, ruleValue = &quot;phone&quot;
+输出：2
+解释：只有两件物品匹配检索规则，这两件物品分别是 [&quot;phone&quot;,&quot;blue&quot;,&quot;pixel&quot;] 和 [&quot;phone&quot;,&quot;gold&quot;,&quot;iphone&quot;] 。注意，[&quot;computer&quot;,&quot;silver&quot;,&quot;phone&quot;] 未匹配检索规则。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= items.length &lt;= 104</code></li>
+<li><code>1 &lt;= typei.length, colori.length, namei.length, ruleValue.length &lt;= 10</code></li>
+<li><code>ruleKey</code> 等于 <code>&quot;type&quot;</code>、<code>&quot;color&quot;</code> 或 <code>&quot;name&quot;</code></li>
+<li>所有字符串仅由小写字母组成</li>
+</ul>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>题目给出了 <code>ruleKey</code> 仅有三种情况对应 <code>0</code> , <code>1</code> , <code>2</code> 三个下标，然后判断 <code>items</code> 此下标的字符串是否为 <code>ruleValue</code> 即可。</p>
+<h4 id="代码-C"><a href="#代码-C" class="headerlink" title="代码(C++)"></a>代码(C++)</h4><pre><code>class Solution &#123;
+public:
+    int countMatches(vector&lt;vector&lt;string&gt;&gt;&amp; items, string ruleKey, string ruleValue) &#123;
+        int choose;
+        if(ruleKey == &quot;type&quot;)&#123;choose = 0;&#125;
+        else if(ruleKey == &quot;color&quot;)&#123;choose = 1;&#125;
+        else&#123;choose = 2;&#125;
+        
+        int res = 0;
+        for(auto i:items)&#123;
+            if(i[choose] == ruleValue) res++;
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</code></pre>
+<h3 id="第二题-最接近目标价格的甜点成本"><a href="#第二题-最接近目标价格的甜点成本" class="headerlink" title="第二题 最接近目标价格的甜点成本"></a>第二题 最接近目标价格的甜点成本</h3><p>你打算做甜点，现在需要购买配料。目前共有 <code>n</code> 种冰激凌基料和 <code>m</code> 种配料可供选购。而制作甜点需要遵循以下几条规则：</p>
+<ul>
+<li>必须选择 <strong>一种</strong> 冰激凌基料。</li>
+<li>可以添加 <strong>一种或多种</strong> 配料，也可以不添加任何配料。</li>
+<li>每种类型的配料 <strong>最多两份</strong> 。</li>
+</ul>
+<p>给你以下三个输入：</p>
+<ul>
+<li><code>baseCosts</code> ，一个长度为 <code>n</code> 的整数数组，其中每个 <code>baseCosts[i]</code> 表示第 <code>i</code> 种冰激凌基料的价格。</li>
+<li><code>toppingCosts</code> ，一个长度为 <code>m</code> 的整数数组，其中每个 <code>toppingCosts[i]</code> 表示 <strong>一份</strong> 第 <code>i</code> 种冰激凌配料的价格。</li>
+<li><code>target</code> ，一个整数，表示你制作甜点的目标价格。</li>
+</ul>
+<p>你希望自己做的甜点总成本尽可能接近目标价格 <code>target</code> 。</p>
+<p>返回最接近 <code>target</code> 的甜点成本。如果有多种方案，返回 <strong>成本相对较低</strong> 的一种。</p>
+<p><strong>示例1</strong>：</p>
+<pre><code>输入：baseCosts = [1,7], toppingCosts = [3,4], target = 10
+输出：10
+解释：考虑下面的方案组合（所有下标均从 0 开始）：
+- 选择 1 号基料：成本 7
+- 选择 1 份 0 号配料：成本 1 x 3 = 3
+- 选择 0 份 1 号配料：成本 0 x 4 = 0
+总成本：7 + 3 + 0 = 10 。
+</code></pre>
+<p><strong>示例2</strong>：</p>
+<pre><code>输入：baseCosts = [2,3], toppingCosts = [4,5,100], target = 18
+输出：17
+解释：考虑下面的方案组合（所有下标均从 0 开始）：
+- 选择 1 号基料：成本 3
+- 选择 1 份 0 号配料：成本 1 x 4 = 4
+- 选择 2 份 1 号配料：成本 2 x 5 = 10
+- 选择 0 份 2 号配料：成本 0 x 100 = 0
+总成本：3 + 4 + 10 + 0 = 17 。不存在总成本为 18 的甜点制作方案。
+</code></pre>
+<p><strong>示例3</strong>：</p>
+<pre><code>输入：baseCosts = [3,10], toppingCosts = [2,5], target = 9
+输出：8
+解释：可以制作总成本为 8 和 10 的甜点。返回 8 ，因为这是成本更低的方案。
+</code></pre>
+<p><strong>示例4</strong>：</p>
+<pre><code>输入：baseCosts = [10], toppingCosts = [1], target = 1
+输出：10
+解释：注意，你可以选择不添加任何配料，但你必须选择一种基料。
+</code></pre>
+<ul>
+<li><code>n == baseCosts.length</code></li>
+<li><code>m == toppingCosts.length</code></li>
+<li><code>1 &lt;= n, m &lt;= 10</code></li>
+<li><code>1 &lt;= baseCosts[i], toppingCosts[i] &lt;= 10000</code></li>
+<li><code>1 &lt;= target &lt;= 10000</code></li>
+</ul>
+<h4 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h4><p>该题数据量较小 <code>1 &lt;= n, m &lt;= 10</code>，可以直接使用暴力dfs….未完待续，因为我想等一个DP方法，自己没写出来DP</p>
+<h3 id="第三题-通过最少操作次数使数组的和相等"><a href="#第三题-通过最少操作次数使数组的和相等" class="headerlink" title="第三题 通过最少操作次数使数组的和相等"></a>第三题 通过最少操作次数使数组的和相等</h3><p>给你两个长度可能不等的整数数组 <code>nums1</code> 和 <code>nums2</code> 。两个数组中的所有值都在 <code>1</code> 到 <code>6</code> 之间（包含 <code>1</code> 和 <code>6</code>）。</p>
+<p>每次操作中，你可以选择 任意 数组中的任意一个整数，将它变成 <code>1</code> 到 <code>6</code> 之间 任意 的值（包含 <code>1</code> 和 <code>6</code>）。</p>
+<p>请你返回使 <code>nums1</code> 中所有数的和与 <code>nums2</code> 中所有数的和相等的最少操作次数。如果无法使两个数组的和相等，请返回 <code>-1</code> 。</p>
+<p> </p>
+<p><strong>示例 1</strong>：</p>
+<pre><code>输入：nums1 = [1,2,3,4,5,6], nums2 = [1,1,2,2,2,2]
+输出：3
+解释：你可以通过 3 次操作使 nums1 中所有数的和与 nums2 中所有数的和相等。以下数组下标都从 0 开始。
+- 将 nums2[0] 变为 6 。 nums1 = [1,2,3,4,5,6], nums2 = [6,1,2,2,2,2] 。
+- 将 nums1[5] 变为 1 。 nums1 = [1,2,3,4,5,1], nums2 = [6,1,2,2,2,2] 。
+- 将 nums1[2] 变为 2 。 nums1 = [1,2,2,4,5,1], nums2 = [6,1,2,2,2,2] 。
+</code></pre>
+<p><strong>示例 2</strong>：</p>
+<pre><code>输入：nums1 = [1,1,1,1,1,1,1], nums2 = [6]
+输出：-1
+解释：没有办法减少 nums1 的和或者增加 nums2 的和使二者相等。
+</code></pre>
+<p><strong>示例 3</strong>：</p>
+<pre><code>输入：nums1 = [6,6], nums2 = [1]
+输出：3
+解释：你可以通过 3 次操作使 nums1 中所有数的和与 nums2 中所有数的和相等。以下数组下标都从 0 开始。
+- 将 nums1[0] 变为 2 。 nums1 = [2,6], nums2 = [1] 。
+- 将 nums1[1] 变为 2 。 nums1 = [2,2], nums2 = [1] 。
+- 将 nums2[0] 变为 4 。 nums1 = [2,2], nums2 = [4] 。
+</code></pre>
+<p> </p>
+<p><strong>提示</strong>：</p>
+<pre><code>1 &lt;= nums1.length, nums2.length &lt;= 100000
+1 &lt;= nums1[i], nums2[i] &lt;= 6
+</code></pre>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ol>
+<li><p>由示例2我们得知，如果有一方的长度 * 6 仍小于另一方，我们可以肯定无法使两个数组的和相等。</p>
+</li>
+<li><p>先计算两个数组各自的和，如果和相等，就不用改变数组，就直接 <code>return 0;</code>。</p>
+</li>
+<li><p>贪心的思路，因为可以在 <code>1</code> 到 <code>6</code> 中任意改变，所以我们可以把所有元素改变最大的记录下来。</p>
+</li>
+<li><p>继以上观点，我们可以以 <code>nums1</code> 为参照物，做增加和减少两个数组 <code>inc</code>、<code>dec</code>，<code>nums</code> 可以增加的部分就相当于 <code>nums1</code> 减少的部分。遍历两个数组得到以 <code>nums1</code> 为参照物的两个最多可以增加或者减少的数组。</p>
+</li>
+<li><p>从大往小去改变两个数组和的差值，直到两个数的大小关系颠倒就说明可以使两个数相等。（因为可以在 <code>1</code> 到 <code>6</code> 中任意改变），每次改变增加记录的值。</p>
+</li>
+<li><p>最后如果发现无法得到结果就返回 <code>-1</code>。</p>
+</li>
+</ol>
+<h4 id="代码-C-1"><a href="#代码-C-1" class="headerlink" title="代码(C++)"></a>代码(C++)</h4><pre><code>class Solution &#123;
+public:
+    int minOperations(vector&lt;int&gt;&amp; nums1, vector&lt;int&gt;&amp; nums2) &#123;
+        int len1 = nums1.size(), len2 = nums2.size();
+        if(len1 * 6 &lt; len2 || len2 * 6 &lt; len1) return -1;
+
+        int sum1 = 0, sum2 = 0;
+        vector&lt;int&gt; inc(6);
+        vector&lt;int&gt; dec(6);
+        for(auto num: nums1)&#123;
+            sum1 += num;
+            inc[6-num]++;
+            dec[num-1]++;
+        &#125;
+        for(auto num: nums2)&#123;
+            sum2 += num;
+            dec[6-num]++;
+            inc[num-1]++;
+        &#125;
+
+        int res = 0;
+        if(sum1 == sum2) return 0;
+        if(sum1 &gt; sum2)&#123;
+            for(int i=5;i&gt;=1;i--)&#123;
+                while(dec[i])&#123;
+                    sum1 -= i;
+                    dec[i] --;
+                    res ++;
+                    if(sum1 &lt;= sum2) return res;
+                &#125;
+            &#125;
+        &#125;else&#123;
+            for(int i=5;i&gt;=1;i--)&#123;
+                while(inc[i])&#123;
+                    sum1 += i;
+                    inc[i] --;
+                    res ++;
+                    if(sum1 &gt;= sum2) return res;
+                &#125;
+            &#125;
+        &#125;
+
+        return -1;
+    &#125;
+&#125;;
+</code></pre>
+<h3 id="第四题-车队-II"><a href="#第四题-车队-II" class="headerlink" title="第四题 车队 II"></a>第四题 车队 II</h3><p>在一条单车道上有 <code>n</code> 辆车，它们朝着同样的方向行驶。给你一个长度为 <code>n</code> 的数组 <code>cars</code> ，其中 <code>cars[i] = [positioni, speedi]</code> ，它表示：</p>
+<ul>
+<li><code>positioni</code> 是第 <code>i</code> 辆车和道路起点之间的距离（单位：米）。题目保证 <code>positioni &lt; positioni+1</code> 。</li>
+<li><code>speedi</code> 是第 <code>i</code> 辆车的初始速度（单位：米/秒）。<br>简单起见，所有车子可以视为在数轴上移动的点。当两辆车占据同一个位置时，我们称它们相遇了。一旦两辆车相遇，它们会合并成一个车队，这个车队里的车有着同样的位置和相同的速度，速度为这个车队里 最慢 一辆车的速度。</li>
+</ul>
+<p>请你返回一个数组 <code>answer</code> ，其中 <code>answer[i]</code> 是第 <code>i</code> 辆车与下一辆车相遇的时间（单位：秒），如果这辆车不会与下一辆车相遇，则 <code>answer[i]</code> 为 <code>-1</code> 。答案精度误差需在 <code>10e-5</code> 以内。</p>
+<p> </p>
+<p><strong>示例 1</strong>：</p>
+<pre><code>输入：cars = [[1,2],[2,1],[4,3],[7,2]]
+输出：[1.00000,-1.00000,3.00000,-1.00000]
+解释：经过恰好 1 秒以后，第一辆车会与第二辆车相遇，并形成一个 1 m/s 的车队。经过恰好 3 秒以后，第三辆车会与第四辆车相遇，并形成一个 2 m/s 的车队。
+</code></pre>
+<p><strong>示例 2</strong>：</p>
+<pre><code>输入：cars = [[3,4],[5,4],[6,3],[9,1]]
+输出：[2.00000,1.00000,1.50000,-1.00000]
+</code></pre>
+<p> </p>
+<p><strong>提示</strong>：</p>
+<pre><code>1 &lt;= cars.length &lt;= 10e5
+1 &lt;= positioni, speedi &lt;= 10e6
+positioni &lt; positioni+1
+</code></pre>
+<p>不会有人真以为我写出最后一题了吧，就先未完待遇，等我学会了就写解析。。。。。。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%91%A8%E8%B5%9B/">周赛</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/leetcode/">leetcode</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/02/28/%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%A4%9A%E6%80%81-String%E4%B8%93%E5%9C%BA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">接口与多态(String专场)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/27/%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%A4%9A%E6%80%81-%E4%B8%8A/">
+                        <span class="hidden-mobile">接口与多态(上)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments">
+                
+                  
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    Fluid.utils.waitElementVisible('vcomments', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "BK6hJ6F1PkFC1I5DmWdNwEoC-gzGzoHsz",
+          app_key: "mJy33u8TOWksoUBAdnqH4JXq",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "hide",
+          meta: [],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a target="_blank" href="https://valine.js.org" rel="nofollow noopener noopener">comments powered by Valine.</a>
+  </noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        苏ICP备2021007827号-1
+      </a>
+    </span>
+    
+  </div>
+
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+
+
+</body>
+</html>
