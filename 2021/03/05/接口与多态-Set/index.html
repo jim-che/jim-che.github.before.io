@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      293 字
+      1k 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      23
        分钟
     </span>
   
@@ -245,11 +245,38 @@
         System.out.println(hash.size());// set的容量 // 2
     &#125;
 </code></pre>
-<p><code>HashSet</code> 本质上是一个 <code>HashMap</code>, 对集合的迭代次序没有任何保证; 特别是，它不能保证订单会随着时间的推移保持不变。这个类允许 <code>null</code> 元素。</p>
+<p><code>HashSet</code> 本质上是一个 <code>HashMap</code>, 对集合的迭代次序没有任何保证; 特别是，它不能保证订单会随着时间的推移保持不变。这个类允许 <code>null</code> 元素。虽然 <code>HashSet</code> 在很少量 <code>Integer</code> 数据会自动通过哈希码排序，但是对于一般的数据完全不能保证数据的顺序。</p>
+<p>放入 <code>HashSet</code> 的类必须实现 <code>HashCode</code> 方法，这也是 <code>HashSet</code> 进行存放数据的基础。</p>
 <p><code>HashSet</code> 默认创建一个大小为 16 的容器，加载因子是 0.75 ，意思是到 12 个元素，它会自动扩容，扩容成的大小都是 2 的幂， 这些都可以在构造函数时候进行改变。</p>
 <p><code>HashSet</code> 实现了 <code>Cloneable</code> 和 <code>Serializable</code> 说明是可以克隆和序列化的。</p>
 <p><code>HashSet</code> 线程并不安全，和 <code>HashMap</code> 一样。<code>java.util.concurrent</code> 包下的 <code>ConcurrentHashMap</code> 类是线程安全的。</p>
-<h3 id="TreeSet"><a href="#TreeSet" class="headerlink" title="TreeSet"></a>TreeSet</h3>
+<h3 id="TreeSet"><a href="#TreeSet" class="headerlink" title="TreeSet"></a>TreeSet</h3><p> <code>TreeSet</code> 是有序的 <code>set</code> 集合，放入 <code>TreeSet</code> 中的数据会自动内部排序，不同于 <code>HashSet</code> 基于哈希表的结构，<code>TreeSet</code> 是基于二叉树的，这也使得 <code>TreeSet</code> 并不支持放入 <code>null</code> 值。</p>
+<p>由于 <code>TreeSet</code> 是可以放入类结构，这就意味着如果我们要将自己的类通过 <code>TreeSet</code> 存储，那么这个类必须实现 <code>Comparable</code> 接口。</p>
+<p><code>TreeSet</code> 和 <code>HashSet</code> 一样，实现了 <code>Cloneable</code> 接口与 <code>Serializable</code> 接口，保证了可被复制，也可以序列化的特性。</p>
+<p><code>TreeSet</code> 是基于 <code>TreeMap</code> 实现的，使用的是 <code>NavigableMap</code> 来进行数据的存放，使用方法和 <code>HashSet</code> 差不多，但是内部结构是截然不同的，它们适用的领域也是不相同的</p>
+<p>下面简单写一下 <code>TreeSet</code> 的部分方法，更多具体方法可以查找JDK文档。</p>
+<pre><code>    public static void main(String[] args) &#123;
+        TreeSet&lt;Integer&gt; treeSet = new TreeSet&lt;&gt;();
+        treeSet.add(1);
+        treeSet.add(3);
+        treeSet.add(2);
+        System.out.println(treeSet);// [1, 2, 3]
+
+        treeSet.remove(3);
+        System.out.println(treeSet);// [1, 2]
+
+        System.out.println(treeSet.contains(3));// false
+    &#125;
+</code></pre>
+<p>需要注意的是 <code>TreeSet</code> 同样是 <code>fail-fast</code> 的，是线程不安全的。</p>
+<h3 id="LinkedHashSet"><a href="#LinkedHashSet" class="headerlink" title="LinkedHashSet"></a>LinkedHashSet</h3><p>看名字就知道，也是一个的哈希结构，本身也是继承 <code>HashSet</code> 而来的，也实现了和 <code>HashSet</code> 一样的 <code>Serializable</code> 和 <code>Cloneable</code> 接口。默认也为加载因素为0.75，大小为16的容器。</p>
+<p><code>LinkedHashSet</code> 是一个基于哈希表和双向链表的接口，增加删除等方法都是基于链表结构的，所以它的存储结构在逻辑上是有序的，迭代时获取元素的顺序等于元素的添加顺序，注意这里不是访问顺序。</p>
+<p> <code>LinkedHashSet</code> 在添加了一个全局的双向链表的结构，所以相比较于 <code>HashSet</code> 而言，查找慢，添加元素稍慢，但迭代访问快，性能更强。也是基于哈希函数查看容器中是否存在，如果不存在才会添加。</p>
+<p>使用方法基本无异，唯一区别就是迭代获取元素的顺序是和添加的顺序一致，这里就不在赘述代码了。</p>
+<p>同样的，<code>LinkedHashSet</code> 也是 <code>fail-fast</code> 线程不安全的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>三种结构各有各的优势，虽然在方法上大相近同，但在底层区别还是不晓得，在实际使用中要通过对源码的分析来确定使用哪个类，才能获得更高的性能。</p>
+<p>三种结构虽然都是线程不安全的，但是原理也都是线程安全类的基础，需要牢牢掌握。</p>
+
             </div>
             <hr>
             <div>
