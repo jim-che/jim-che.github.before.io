@@ -15,12 +15,12 @@
   
   <meta name="theme-color" content="#2f4154">
   
-    <meta name="description" content="如果这就是简单的前端，我的程序员生涯可能没开始就结束了">
+    <meta name="description" content="接口与多态(Map)">
   
   <meta name="author" content="jim chen">
   <meta name="keywords" content="Java c++ Javascript python node.js 安装更新与卸载">
   
-  <title>STL(vector) - C的博客</title>
+  <title>接口与多态(Map) - C的博客</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -165,7 +165,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="STL(vector)">
+            <span class="h2" id="subtitle" title="接口与多态(Map)">
               
             </span>
 
@@ -175,8 +175,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-05 22:54" pubdate>
-        2021年3月5日 晚上
+      <time datetime="2021-03-08 08:00" pubdate>
+        2021年3月8日 早上
       </time>
     </span>
   
@@ -187,7 +187,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      943 字
     </span>
   
 
@@ -197,7 +197,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      26
        分钟
     </span>
   
@@ -227,15 +227,142 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">STL(vector)</h1>
+            <h1 style="display: none">接口与多态(Map)</h1>
             
             <div class="markdown-body">
-              
+              <h2 id="接口与多态-Map"><a href="#接口与多态-Map" class="headerlink" title="接口与多态(Map)"></a>接口与多态(Map)</h2><span id="more"></span>
+
+<h3 id="1-HashMap"><a href="#1-HashMap" class="headerlink" title="1. HashMap"></a>1. HashMap</h3><p>前一篇也说过，<code>HashMap</code> 是基于哈希表的一种容器，用的是数组加链表的结构，根据源码得到的结构如下:</p>
+<p><img src="/img/Java/Map/hash.png" srcset="/img/loading.gif" alt="HashMap结构"></p>
+<p>数组的 <code>HashMap</code> 的主体，链表是解决哈希冲突的方式，而且由于添加查找的数组如果是有冲突用链表表示的话，时间复杂度会比直接查找高一些，所以链表越少越好，即冲突越少越好，一个适合的哈希函数就非常重要。</p>
+<p><code>HashMap</code> 的默认大小为16，加载因子为0.75, 即到了12就会扩展数组。</p>
+<p>常规构造器并没有将 <code>table</code> 数组构造好，在 <code>put</code> 函数时，发现没有 <code>table</code>数组，才会构建 <code>table</code> 数组。</p>
+<p>查看一下几个关键函数的源码：</p>
+<p><strong>put</strong>：</p>
+<pre><code>public V put(K key, V value) &#123;
+        //如果table数组为空数组&#123;&#125;，进行数组填充（为table分配实际内存空间），入参为threshold，
+        //此时threshold为initialCapacity 默认是1&lt;&lt;4(24=16)
+        if (table == EMPTY_TABLE) &#123;
+            inflateTable(threshold);
+        &#125;
+       //如果key为null，存储位置为table[0]或table[0]的冲突链上
+        if (key == null)
+            return putForNullKey(value);
+        int hash = hash(key);//对key的hashcode进一步计算，确保散列均匀
+        int i = indexFor(hash, table.length);//获取在table中的实际位置
+        for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) &#123;
+        //如果该对应数据已存在，执行覆盖操作。用新value替换旧value，并返回旧value
+            Object k;
+            if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) &#123;
+                V oldValue = e.value;
+                e.value = value;
+                e.recordAccess(this);
+                return oldValue;
+            &#125;
+        &#125;
+        modCount++;//保证并发访问时，若HashMap内部结构发生变化，快速响应失败
+        addEntry(hash, key, value, i);//新增一个entry
+        return null;
+&#125;
+</code></pre>
+<p><code>inflateTable</code> 这个方法用于为主干数组 <code>table</code> 在内存中分配存储空间，通过 <code>roundUpToPowerOf2(toSize)</code> 可以确保 <code>capacity</code> 为大于或等于 <code>toSize</code> 的最接近 <code>toSize</code> 的二次幂，比如 <code>toSize=13</code> ,则 <code>capacity=16;to_size=16,capacity=16;to_size=17,capacity=32</code> .</p>
+<pre><code>private void inflateTable(int toSize) &#123;
+        int capacity = roundUpToPowerOf2(toSize);//capacity一定是2的次幂
+        /**此处为threshold赋值，取capacity*loadFactor和MAXIMUM_CAPACITY+1的最小值，
+        capaticy一定不会超过MAXIMUM_CAPACITY，除非loadFactor大于1 */
+        threshold = (int) Math.min(capacity * loadFactor, MAXIMUM_CAPACITY + 1);
+        table = new Entry[capacity];
+        initHashSeedAsNeeded(capacity);
+    &#125;
+</code></pre>
+<p><strong>Hash</strong>:</p>
+<pre><code>/**这是一个神奇的函数，用了很多的异或，移位等运算
+对key的hashcode进一步进行计算以及二进制位的调整等来保证最终获取的存储位置尽量分布均匀*/
+final int hash(Object k) &#123;
+        int h = hashSeed;
+        if (0 != h &amp;&amp; k instanceof String) &#123;
+            return sun.misc.Hashing.stringHash32((String) k);
+        &#125;
+
+        h ^= k.hashCode();
+
+        h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);
+        return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
+    &#125;
+
+
+/**
+     * 返回数组下标
+     */
+    static int indexFor(int h, int length) &#123;
+        return h &amp; (length-1);
+    &#125;
+</code></pre>
+<p>加入 <code>Map</code> 的具体流程如下:</p>
+<p><img src="/img/Java/Map/hash2.png" srcset="/img/loading.gif" alt="具体流程"></p>
+<p>把自己写的类放入 <code>HashMap</code> 一定要写 <code>Hashcode</code> 方法和 <code>equals</code> 方法，这样才能成功的判断并放入。</p>
+<p><img src="/img/Java/Map/hash3.png" srcset="/img/loading.gif" alt="put方法"></p>
+<p><code>HashMap</code> 也实现了 <code>Cloneable</code> 和 <code>Serializable</code> 表示可以可以复制和JVM序列化</p>
+<p>下面看一下 <code>HashMap</code> 的常见用法：</p>
+<pre><code>    public static void main(String[] args) &#123;// 判断数组中每个数出现了几次
+        HashMap&lt;Integer, Integer&gt; hashMap = new HashMap&lt;&gt;();
+        int []nums = new int [10];
+
+        for(int i=0;i&lt;10;i++)&#123;
+            nums[i] = (int)((Math.random()*10));
+            System.out.print(nums[i]+ &quot; &quot;);
+        &#125;// 初始化数组
+
+        System.out.println();
+
+        for(int num:nums)&#123;
+            if(!hashMap.containsKey(num))&#123;// 是否包含Key
+                hashMap.put(num, 1);
+            &#125;else&#123;
+                hashMap.compute(num, (key,value)-&gt;value+=1);// lambda 表达式，表示value自增1
+            &#125;
+        &#125;
+
+        System.out.println(hashMap);
+        System.out.println(hashMap.get(5));// 得到Key的值
+
+        hashMap.remove(5);
+        System.out.println(hashMap);
+
+        System.out.println(hashMap.size());
+    &#125;
+</code></pre>
+<p>结果：</p>
+<pre><code>7 6 0 3 2 5 2 2 5 2 
+&#123;0=1, 2=4, 3=1, 5=2, 6=1, 7=1&#125;
+2
+&#123;0=1, 3=1, 5=2, 6=1, 7=1&#125;
+5
+</code></pre>
+<h3 id="日后再更新…"><a href="#日后再更新…" class="headerlink" title="日后再更新…."></a>日后再更新….</h3>
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%90%8E%E7%AB%AF/Java/Java%E5%9F%BA%E7%A1%80/">Java基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E7%9A%84%E8%BF%90%E7%94%A8/">编程语言的运用</a>
+                    
+                  </div>
                 
               </div>
               
@@ -250,9 +377,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/08/%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%A4%9A%E6%80%81-Map/">
+                      <a href="/2021/03/09/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">接口与多态(Map)</span>
+                        <span class="hidden-mobile">异常处理</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -260,8 +387,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/05/%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%A4%9A%E6%80%81-Set/">
-                        <span class="hidden-mobile">接口与多态(Set)</span>
+                      <a href="/2021/03/05/STL-vector/">
+                        <span class="hidden-mobile">STL(vector)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
